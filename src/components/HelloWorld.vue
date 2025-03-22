@@ -2,29 +2,33 @@
   <div class="app">
     <div id="app" class="app">
       <form @submit="addProduct" class="container">
-        <p>Список покупок</p>
+        <p>{{ formTitle }}</p>
         <input type="text" v-model="title" placeholder="Название товара" />
         <input type="number" v-model="count" placeholder="Количество, шт" />
         <input type="number" v-model="price" placeholder="Стоимость, руб" />
-        <button class="add-btn">Добавить товар</button>
+        <button :disabled="!isDisable" class="add-btn">Добавить товар</button>
       </form>
 
       <ol>
         <li v-for="product in order" :key="product.id">
           <div v-if="editingId !== product.id">
             {{ product.title }} ||
-            
+
             <strong>Количество: </strong> {{ product.count }} шт. || ,
-            <strong>Стоимость за шт: </strong> {{ product.price }} руб. 
-            <button class="edit-btn" @click="startEditing(product.id)">Редактировать</button>
-            <button class="delete-btn" @click="deleteProd(product.id)">Удалить</button>
+            <strong>Стоимость за шт: </strong> {{ product.price }} руб.
+            <button class="edit-btn" @click="startEditing(product.id)">
+              Редактировать
+            </button>
+            <button class="delete-btn" @click="deleteProd(product.id)">
+              Удалить
+            </button>
           </div>
           <div v-else>
             <input type="text" v-model="editTitle" placeholder="Название" />
             <input type="number" v-model="editPrice" placeholder="Стоимость" />
             <input type="number" v-model="editCount" placeholder="Количество" />
-            <button @click="saveEdit">Сохранить</button>
-            <button @click="cancelEdit">Отмена</button>
+            <button class="save-btn" @click="saveEdit">Сохранить</button>
+            <button class="cancel-btn" @click="cancelEdit">Отмена</button>
           </div>
         </li>
       </ol>
@@ -67,6 +71,7 @@ export default {
     },
 
     startEditing(id) {
+      this.formTitle = "Редактирование товара";
       const product = this.order.find((p) => p.id === id);
       this.editingId = id;
       this.editTitle = product.title;
@@ -86,6 +91,7 @@ export default {
     },
 
     cancelEdit() {
+
       this.editingId = null;
       this.editTitle = "";
       this.editPrice = "";
@@ -104,6 +110,16 @@ export default {
         totalPrice += product.price * product.count;
       }
       return totalPrice;
+    },
+    isDisable() {
+      return this.title !== '' && this.price !== '' && this.count !== '';
+    },
+    formTitle() {
+      if (this.editingId) {
+        return "Редактирование товара";
+      } else {
+        return "Добавление товара";
+      }
     },
   },
 };
@@ -143,12 +159,12 @@ export default {
 
 .container input:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #4caf50;
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
 }
 
 .add-btn {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -179,7 +195,10 @@ li strong {
   color: #666;
 }
 
-.edit-btn, .delete-btn, .save-btn, .cancel-btn {
+.edit-btn,
+.delete-btn,
+.save-btn,
+.cancel-btn {
   padding: 6px 12px;
   margin-left: 10px;
   border: none;
@@ -190,7 +209,7 @@ li strong {
 }
 
 .edit-btn {
-  background-color: #2196F3;
+  background-color: #2196f3;
   color: white;
 }
 
@@ -208,7 +227,7 @@ li strong {
 }
 
 .save-btn {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
