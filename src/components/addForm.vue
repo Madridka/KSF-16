@@ -1,11 +1,12 @@
 <template>
   <div>
-    <form @submit="addNewProduct" class="container">
+    <form @submit.prevent="addNewProduct" class="container">
       <p>{{ formTitle }}</p>
       <input type="text" v-model="title" placeholder="Название товара" />
       <input type="number" v-model="count" placeholder="Количество, шт" />
       <input type="number" v-model="price" placeholder="Стоимость, руб" />
-      <button :disabled="!isDisable" class="btn btn-add">Добавить товар</button>
+      <!-- <button :disabled="!isDisable" class="btn btn-add">Добавить товар</button> -->
+      <button class="btn btn-add">Добавить товар</button>
     </form>
   </div>
 </template>
@@ -15,13 +16,33 @@ export default {
   name: "addForm",
   components: {},
   data() {
-    return {};
+    return {
+      title: '',
+      count: '',
+      price: ''
+    };
   },
-
+  props: {
+    order: {
+      type: Array
+    }, 
+    formTitle: {
+      type: String
+    }
+  },
   methods: {
     addNewProduct() {
-      this.$emit('add-product', this.addNewProduct);
-      this.addNewProduct = "";
+      const newProduct = {
+        id: Date.now(),
+        title: this.title,
+        count: this.count,
+        price: this.price
+      }
+      this.$emit('add-product', newProduct)
+      this.title = '';
+      this.count = '';
+      this.price = '';
+
     }
   },
 

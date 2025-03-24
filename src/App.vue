@@ -1,13 +1,13 @@
 <template>
   <div class="app">
     <div class="app">
-      <addForm @add-product="addProduct"/>
+      <addForm :order="order" formTitle="Добавление товара" @add-product="addProduct"/>
       <ol>
         <li v-for="product in order" :key="product.id">
           <div v-if="editingId !== product.id">
             {{ product.title }} ||
 
-            <strong>Количество: </strong> {{ product.count }} шт. || ,
+            <strong>Количество: </strong> {{ product.count }} шт. ||
             <strong>Стоимость за шт.: </strong> {{ product.price }} руб.
             <button class="btn btn-edit" @click="startEditing(product.id)">
               Редактировать
@@ -51,7 +51,11 @@ export default {
       price: "",
       count: "",
 
-      order: [{ id: 1, title: "Мопс", count: "2", price: "8000" }],
+      order: [
+        { id: 1, title: "Мопс", count: "2", price: "8000" },
+        { id: 2, title: "Кофе", count: "2", price: "1200" },
+        { id: 3, title: "Вода", count: "4", price: "56" },
+        ],
 
       editingId: null,
       editTitle: "",
@@ -61,16 +65,10 @@ export default {
   },
 
   methods: {
-    addProduct(e) {
-      e.preventDefault();
-      this.order.push({
-        id: Date.now(),
-        title: this.title,
-        price: Number(this.price),
-        count: Number(this.count),
-      });
+    addProduct(product) {
+      this.order.push(product);
 
-      (this.title = ""), (this.price = ""), (this.count = "");
+      // (this.title = ""), (this.price = ""), (this.count = "");
     },
 
     startEditing(id) {
