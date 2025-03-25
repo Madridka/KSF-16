@@ -1,40 +1,33 @@
 <template>
   <div class="app">
-    <div class="app">
-      <addForm :order="order" formTitle="Добавление товара" @add-product="addProduct"/>
-      <ol>
-        <li v-for="product in order" :key="product.id">
-          <div v-if="editingId !== product.id">
-            {{ product.title }} ||
+    <addForm
+      :order="order"
+      formTitle="Добавление товара"
+      @add-product="addProduct"
+    />
 
-            <strong>Количество: </strong> {{ product.count }} шт. ||
-            <strong>Стоимость за шт.: </strong> {{ product.price }} руб.
-            <button class="btn btn-edit" @click="startEditing(product.id)">
-              Редактировать
-            </button>
-            <button class="btn btn-delete" @click="deleteProd(product.id)">
-              Удалить
-            </button>
-          </div>
-          <div v-else>
-            <input type="text" v-model="editTitle" placeholder="Название" />
-            <input type="number" v-model="editCount" placeholder="Количество" />
-            <input type="number" v-model="editPrice" placeholder="Стоимость" />
-            <button class="btn btn-save" @click="saveEdit">Сохранить</button>
-            <button class="btn btn-cancel" @click="cancelEdit">Отмена</button>
-          </div>
-        </li>
-      </ol>
+    <shopList
+      :order="order"
+      :editingId="editingId"
+      :editTitle="editTitle"
+      :editPrice="editPrice"
+      :editCount="editCount"
+      :editDescription="editDescription"
+      @start-edit="startEditing"
+      @save-edit="saveEdit"
+      @cancel-edit="cancelEdit"
+      @delete-prod="deleteProd"
+    />
 
-      <div class="total" v-if="totalPrice > 0">
-        Стоимость покупки: <strong> {{ totalPrice }} рублей </strong>
-      </div>
+    <div class="total" v-if="totalPrice > 0">
+      Стоимость покупки: <strong> {{ totalPrice }} рублей </strong>
     </div>
   </div>
 </template>
 
 <script>
 import addForm from "./components/addForm.vue";
+import ShopList from "./components/shopList.vue";
 
 import "./assets/styles/normalize.css";
 import "./assets/styles/styles.scss";
@@ -44,31 +37,32 @@ export default {
   name: "App",
   components: {
     addForm,
+    ShopList,
   },
   data() {
     return {
-      title: "",
-      price: "",
-      count: "",
+      // title: "",
+      // price: "",
+      // count: "",
+      // description: "",
 
       order: [
-        { id: 1, title: "Мопс", count: "2", price: "8000" },
-        { id: 2, title: "Кофе", count: "2", price: "1200" },
-        { id: 3, title: "Вода", count: "4", price: "56" },
-        ],
+        { id: 1, title: "Мопс", count: "2", price: "8000", description: "Собака"},
+        { id: 2, title: "Кофе", count: "2", price: "1200", description: "Jardin"},
+        { id: 3, title: "Вода", count: "4", price: "56", description: "Четыре пятерки"},
+      ],
 
       editingId: null,
       editTitle: "",
       editPrice: "",
       editCount: "",
+      editDescription: "",
     };
   },
 
   methods: {
     addProduct(product) {
       this.order.push(product);
-
-      // (this.title = ""), (this.price = ""), (this.count = "");
     },
 
     startEditing(id) {
@@ -78,16 +72,20 @@ export default {
       this.editTitle = product.title;
       this.editPrice = product.price;
       this.editCount = product.count;
+      this.editDescription = product.description;
     },
 
-    saveEdit() {
+    saveEdit(updatedProduct) {
       const index = this.order.findIndex((p) => p.id === this.editingId);
-      this.order[index] = {
-        id: this.editingId,
-        title: this.editTitle,
-        price: Number(this.editPrice),
-        count: Number(this.editCount),
-      };
+      if (index !== -1) {
+        this.order[index] = {
+          id: this.editingId,
+          title: updatedProduct.title,
+          price: Number(updatedProduct.price),
+          count: Number(updatedProduct.count),
+          description: updatedProduct.description
+        };
+      }
       this.cancelEdit();
     },
 
@@ -96,6 +94,7 @@ export default {
       this.editTitle = "";
       this.editPrice = "";
       this.editCount = "";
+      this.editDescription = "";
     },
 
     deleteProd(id) {
