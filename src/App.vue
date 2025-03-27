@@ -123,14 +123,6 @@ export default {
   },
 
   computed: {
-    formTitle() {
-      if (this.editingId) {
-        return "Редактирование товара";
-      } else {
-        return "Добавление товара";
-      }
-    },
-
     isDisable() {
       return (
         this.title !== "" &&
