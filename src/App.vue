@@ -1,10 +1,19 @@
 <template>
   <div class="app">
     <addForm
+      :is-visible="isModalOpen"
+      @close="isModalOpen = false"
       :order="order"
       formTitle="Добавление товара"
       @add-product="addProduct"
+      :is-disabled="isDisabled"
     />
+
+    <div class="btn-center">
+      <button class="btn btn-add" @click="isModalOpen = !isModalOpen">
+        Хочешь добавить товар? нажми сюда
+      </button>
+    </div>
 
     <shopList
       :order="order"
@@ -27,7 +36,7 @@
 
 <script>
 import addForm from "./components/addForm.vue";
-import ShopList from "./components/shopList.vue";
+import ShopList from "./components/shopList.vue"
 
 import "./assets/styles/normalize.css";
 import "./assets/styles/styles.scss";
@@ -41,15 +50,28 @@ export default {
   },
   data() {
     return {
-      // title: "",
-      // price: "",
-      // count: "",
-      // description: "",
-
       order: [
-        { id: 1, title: "Мопс", count: "2", price: "8000", description: "Собака"},
-        { id: 2, title: "Кофе", count: "2", price: "1200", description: "Jardin"},
-        { id: 3, title: "Вода", count: "4", price: "56", description: "Четыре пятерки"},
+        {
+          id: 1,
+          title: "Мопс",
+          count: "2",
+          price: "8000",
+          description: "Собака",
+        },
+        {
+          id: 2,
+          title: "Кофе",
+          count: "2",
+          price: "1200",
+          description: "Jardin зерна, 1кг, который Crema",
+        },
+        {
+          id: 3,
+          title: "Вода",
+          count: "4",
+          price: "56",
+          description: "Четыре пятерки",
+        },
       ],
 
       editingId: null,
@@ -57,6 +79,8 @@ export default {
       editPrice: "",
       editCount: "",
       editDescription: "",
+
+      isModalOpen: false,
     };
   },
 
@@ -83,7 +107,7 @@ export default {
           title: updatedProduct.title,
           price: Number(updatedProduct.price),
           count: Number(updatedProduct.count),
-          description: updatedProduct.description
+          description: updatedProduct.description,
         };
       }
       this.cancelEdit();
@@ -112,10 +136,6 @@ export default {
       return totalPrice;
     },
 
-    isDisable() {
-      return this.title !== "" && this.price !== "" && this.count !== "";
-    },
-
     formTitle() {
       if (this.editingId) {
         return "Редактирование товара";
@@ -123,6 +143,10 @@ export default {
         return "Добавление товара";
       }
     },
+
+    isDisable() {
+      return this.title !== "" && this.price !== "" && this.count !== "" && this.description !== "";
+    }
   },
 };
 </script>
