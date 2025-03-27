@@ -27,16 +27,12 @@
       @cancel-edit="cancelEdit"
       @delete-prod="deleteProd"
     />
-
-    <div class="total" v-if="totalPrice > 0">
-      Стоимость покупки: <strong> {{ totalPrice }} рублей </strong>
-    </div>
   </div>
 </template>
 
 <script>
 import addForm from "./components/addForm.vue";
-import ShopList from "./components/shopList.vue"
+import ShopList from "./components/shopList.vue";
 
 import "./assets/styles/normalize.css";
 import "./assets/styles/styles.scss";
@@ -127,15 +123,6 @@ export default {
   },
 
   computed: {
-    totalPrice() {
-      // Не работает, если редактировать
-      let totalPrice = 0;
-      for (const product of this.order) {
-        totalPrice += product.price * product.count;
-      }
-      return totalPrice;
-    },
-
     formTitle() {
       if (this.editingId) {
         return "Редактирование товара";
@@ -145,8 +132,13 @@ export default {
     },
 
     isDisable() {
-      return this.title !== "" && this.price !== "" && this.count !== "" && this.description !== "";
-    }
+      return (
+        this.title !== "" &&
+        this.price !== "" &&
+        this.count !== "" &&
+        this.description !== ""
+      );
+    },
   },
 };
 </script>
