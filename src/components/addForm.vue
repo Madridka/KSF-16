@@ -1,7 +1,14 @@
 <template>
   <div class="modal" v-if="isVisible">
-    <form @submit.prevent="addNewProduct(); closeModal();" class="container modal-content">
+    <form
+      @submit.prevent="
+        addNewProduct();
+        closeModal();
+      "
+      class="container modal-content"
+    >
       <p>{{ formTitle }}</p>
+      {{ isDisabled }}
       <input type="text" v-model="title" placeholder="Название товара" />
       <input type="number" v-model="count" placeholder="Количество, шт" />
       <input type="number" v-model="price" placeholder="Стоимость, руб" />
@@ -12,7 +19,9 @@
       />
       <br />
       <div class="btn-center">
-        <button :disabled="isDisabled" class="btn btn-add">Добавить товар</button>
+        <button :disabled="!isDisabled" class="btn btn-add">
+          Добавить товар
+        </button>
         <button class="btn btn-close" @click="closeModal">Х</button>
       </div>
     </form>
@@ -20,8 +29,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: "addForm",
   components: {},
@@ -45,9 +52,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    isDisabled: {
-      type: Boolean,
-    },    
   },
   methods: {
     addNewProduct() {
@@ -69,7 +73,16 @@ export default {
     },
   },
 
-  computed: {},
+  computed: {
+    isDisabled() {
+      return (
+        this.title !== "" &&
+        this.price !== "" &&
+        this.count !== "" &&
+        this.description !== ""
+      );
+    },
+  },
 };
 </script>
 

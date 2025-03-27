@@ -6,7 +6,6 @@
       :order="order"
       formTitle="Добавление товара"
       @add-product="addProduct"
-      :is-disabled="isDisabled"
     />
 
     <div class="btn-center">
@@ -123,14 +122,7 @@ export default {
   },
 
   computed: {
-    isDisable() {
-      return (
-        this.title !== "" &&
-        this.price !== "" &&
-        this.count !== "" &&
-        this.description !== ""
-      );
-    },
+    
   },
 };
 </script>
