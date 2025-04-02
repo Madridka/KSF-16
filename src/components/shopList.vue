@@ -1,37 +1,36 @@
 <template>
   <div class="product">
-    <ol class="product__item">
-      <li v-for="product in order" :key="product.id">
-        <strong>Товар: </strong> {{ product.title }}
-        <br />
-        <strong>Количество: </strong>{{ product.count }} шт. ||
-        <strong>Стоимость за шт.: </strong> {{ product.price }} руб.
-        <br />
-        <strong>Описание товара: </strong>
-        {{ product.description }}
-        <br />
-        <button class="btn btn-edit" @click="startEdit(product.id)">
-          Редактировать
-        </button>
-        <button class="btn btn-delete" @click="deleteProd(product.id)">
-          Удалить
-        </button>
+    <div class="product__item" v-for="product in order" :key="product.id">
+      
+      <strong>Товар: </strong> {{ product.title }}
+      <br />
+      <strong>Количество: </strong>{{ product.count }} шт.
+      <strong>Стоимость за шт.: </strong> {{ product.price }} руб.
+      <br />
+      <strong>Описание товара: </strong>
+      {{ product.description }}
+      <br />
+      <button class="btn btn-edit" @click="startEdit(product.id)">
+        Купить (пока что Редактирование)
+      </button>
+      <!-- <button class="btn btn-delete" @click="deleteProd(product.id)">
+        Удалить
+      </button> -->
 
-        <editForm
-          :is-visible="isEditFormOpen"
-          @close="isEditFormOpen = false"
-          formTitle="Редактирование товара"
-          :order="order"
-          :editingId="editingId"
-          :editTitle="editTitle"
-          :editPrice="editPrice"
-          :editCount="editCount"
-          :editDescription="editDescription"
-          @save-edit="saveEdit"
-          @cancel-edit="cancelEdit"
-        />
-      </li>
-    </ol>
+      <editForm
+        :is-visible="isEditFormOpen"
+        @close="isEditFormOpen = false"
+        formTitle="Редактирование товара"
+        :order="order"
+        :editingId="editingId"
+        :editTitle="editTitle"
+        :editPrice="editPrice"
+        :editCount="editCount"
+        :editDescription="editDescription"
+        @save-edit="saveEdit"
+        @cancel-edit="cancelEdit"
+      />
+    </div>
   </div>
 </template>
 
@@ -79,7 +78,7 @@ export default {
   methods: {
     startEdit(id) {
       this.isEditFormOpen = true;
-      this.$emit('start-edit', id)
+      this.$emit("start-edit", id);
     },
     saveEdit(updatedProduct) {
       this.$emit("save-edit", updatedProduct);
