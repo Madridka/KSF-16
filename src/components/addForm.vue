@@ -8,7 +8,6 @@
       class="container modal-content"
     >
       <p>{{ formTitle }}</p>
-      {{ isDisabled }}
       <input type="text" v-model="title" placeholder="Название товара" />
       <input type="number" v-model="count" placeholder="Количество, шт" />
       <input type="number" v-model="price" placeholder="Стоимость, руб" />
@@ -77,8 +76,8 @@ export default {
     isDisabled() {
       return (
         this.title !== "" &&
-        this.price !== "" &&
         this.count !== "" &&
+        this.price !== "" &&
         this.description !== ""
       );
     },

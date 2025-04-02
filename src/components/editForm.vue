@@ -10,7 +10,7 @@
         v-model="localEditDescription"
         placeholder="Описание"
       />
-      <button class="btn btn-save" @click="saveEdit">Сохранить</button>
+      <button :disabled="!isDisabled" class="btn btn-save" @click="saveEdit">Сохранить</button>
       <button class="btn btn-cancel" @click="cancelEdit">Отмена</button>
       <button class="btn btn-close" @click="closeModal">Х</button>
     </div>
@@ -77,6 +77,17 @@ export default {
 
     closeModal() {
       this.$emit("close");
+    },
+  },
+
+    computed: {
+    isDisabled() {
+      return (
+        this.localEditTitle !== "" &&
+        this.localEditCount !== "" &&
+        this.localEditPrice !== "" &&
+        this.localEditDescription !== ""
+      );
     },
   },
 
