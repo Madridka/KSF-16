@@ -1,6 +1,6 @@
 <template>
   <div class="product">
-    <div class="product__item" v-for="product in order" :key="product.id">
+    <div class="product__item" v-for="product in $store.state.order" :key="product.id">
       <div class="product__image-wrapper"><img src="../assets/photo.jpg" alt="Фото товара"></div>
       <hr>
       <strong>{{ product.title }}</strong> 
@@ -8,34 +8,14 @@
       <button class="btn btn-edit btn-center" @click="startEdit(product.id)">
         Купить
       </button>
-      <!-- <button class="btn btn-delete" @click="deleteProd(product.id)">
-        Удалить
-      </button> -->
-
-      <!-- <editForm
-        :is-visible="isEditFormOpen"
-        @close="isEditFormOpen = false"
-        formTitle="Редактирование товара"
-        :order="order"
-        :editingId="editingId"
-        :editTitle="editTitle"
-        :editPrice="editPrice"
-        :editCount="editCount"
-        :editDescription="editDescription"
-        @save-edit="saveEdit"
-        @cancel-edit="cancelEdit"
-      /> -->
     </div>
   </div>
 </template>
 
 <script>
-// import editForm from "./editForm.vue";
-
 export default {
   name: "shopList",
   components: {
-    // editForm,
   },
   data() {
     return {

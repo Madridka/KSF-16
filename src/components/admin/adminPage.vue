@@ -13,25 +13,31 @@
         Хочешь добавить товар? нажми сюда
       </button>
     </div>
-
-    <shopList
-      :order="order"
-      :editingId="editingId"
-      :editTitle="editTitle"
-      :editPrice="editPrice"
-      :editCount="editCount"
-      :editDescription="editDescription"
-      @start-edit="startEditing"
-      @save-edit="saveEdit"
-      @cancel-edit="cancelEdit"
-      @delete-prod="deleteProd"
-    />
+    <div>
+      <ol>
+        <li v-for="product in $store.state.order" :key="product.id">
+          <strong>Товар: </strong> {{ product.title }}
+          <br />
+          <strong>Количество: </strong>{{ product.count }} шт. ||
+          <strong>Стоимость за шт.: </strong> {{ product.price }} руб.
+          <br />
+          <strong>Описание товара: </strong>
+          {{ product.description }}
+          <br />
+          <button class="btn btn-edit" @click="startEdit(product.id)">
+            Редактировать
+          </button>
+          <button class="btn btn-delete" @click="deleteProd(product.id)">
+            Удалить
+          </button>
+        </li>
+      </ol>
+    </div>
   </div>
 </template>
 
 <script>
 import addForm from "../addForm.vue";
-import ShopList from "../shopList.vue";
 
 import "../../assets/styles/normalize.css";
 import "../../assets/styles/styles.scss";
@@ -41,34 +47,9 @@ export default {
   name: "App",
   components: {
     addForm,
-    ShopList,
   },
   data() {
     return {
-      order: [
-        {
-          id: 1,
-          title: "Мопс",
-          count: "2",
-          price: "8000",
-          description: "Собака",
-        },
-        {
-          id: 2,
-          title: "Кофе",
-          count: "2",
-          price: "1200",
-          description: "Jardin зерна, 1кг, который Crema",
-        },
-        {
-          id: 3,
-          title: "Вода",
-          count: "4",
-          price: "56",
-          description: "Четыре пятерки",
-        },
-      ],
-
       editingId: null,
       editTitle: "",
       editPrice: "",
