@@ -1,19 +1,5 @@
 <template>
   <div class="app">
-    <addForm
-      :is-visible="isModalOpen"
-      @close="isModalOpen = false"
-      :order="order"
-      formTitle="Добавление товара"
-      @add-product="addProduct"
-    />
-
-    <div class="btn-center">
-      <button class="btn btn-add" @click="isModalOpen = !isModalOpen">
-        Хочешь добавить товар? нажми сюда
-      </button>
-    </div>
-
     <shopList
       :order="order"
       :editingId="editingId"
@@ -30,13 +16,13 @@
 </template>
 
 <script>
-import addForm from "./addForm.vue";
+// import addForm from "./addForm.vue";
 import ShopList from "./shopList.vue";
 
 export default {
   name: "App",
   components: {
-    addForm,
+    // addForm,
     ShopList,
   },
   data() {
@@ -75,7 +61,7 @@ export default {
           title: "Футболка",
           count: "5",
           price: "799",
-          description: "Пять хлопковых футболок разных цветов",
+          description: "Пять хлопковых футболок",
         },
         {
           id: 6,
@@ -96,7 +82,7 @@ export default {
           title: "Наушники",
           count: "1",
           price: "3500",
-          description: "Беспроводные наушники с шумоподавлением",
+          description: "Беспроводные наушники",
         },
         {
           id: 9,

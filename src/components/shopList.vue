@@ -1,23 +1,18 @@
 <template>
   <div class="product">
     <div class="product__item" v-for="product in order" :key="product.id">
-      
-      <strong>Товар: </strong> {{ product.title }}
-      <br />
-      <strong>Количество: </strong>{{ product.count }} шт.
-      <strong>Стоимость за шт.: </strong> {{ product.price }} руб.
-      <br />
-      <strong>Описание товара: </strong>
-      {{ product.description }}
-      <br />
-      <button class="btn btn-edit" @click="startEdit(product.id)">
-        Купить (пока что Редактирование)
+      <div class="product__image-wrapper"><img src="../assets/photo.jpg" alt="Фото товара"></div>
+      <hr>
+      <strong>{{ product.title }}</strong> 
+      <div style="font-size: 14px">{{ product.description }}</div>
+      <button class="btn btn-edit btn-center" @click="startEdit(product.id)">
+        Купить
       </button>
       <!-- <button class="btn btn-delete" @click="deleteProd(product.id)">
         Удалить
       </button> -->
 
-      <editForm
+      <!-- <editForm
         :is-visible="isEditFormOpen"
         @close="isEditFormOpen = false"
         formTitle="Редактирование товара"
@@ -29,18 +24,18 @@
         :editDescription="editDescription"
         @save-edit="saveEdit"
         @cancel-edit="cancelEdit"
-      />
+      /> -->
     </div>
   </div>
 </template>
 
 <script>
-import editForm from "./editForm.vue";
+// import editForm from "./editForm.vue";
 
 export default {
   name: "shopList",
   components: {
-    editForm,
+    // editForm,
   },
   data() {
     return {

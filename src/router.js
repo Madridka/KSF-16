@@ -1,6 +1,6 @@
 import VueRouter from "vue-router";
 import homePage from "@/components/homePage.vue"
-import infoPage from "@/components/infoPage.vue"
+import adminPage from "@/components/admin/adminPage.vue"
 
 export default new VueRouter({
     routes: [{
@@ -8,8 +8,8 @@ export default new VueRouter({
         component: homePage
     },
     {
-        path: "/info",
-        component: infoPage
+        path: "/admin",
+        component: adminPage
     }
     ],
     mode: 'history'
