@@ -1,20 +1,20 @@
 <template>
   <div>
-    <router-view></router-view>
-    <hr>
-    <footer>
-      <ul class="nav justify-content-center">
+    <header>
+      <ul class="nav nav-pills justify-content-center">
         <li>
-          <router-link exact to="/">Главная</router-link>
+          <router-link class="nav-link" exact to="/" active-class="active">Главная</router-link>
         </li>
         <li>
-          <router-link exact to="/admin">Админка</router-link>
+          <router-link class="nav-link" exact to="/admin" active-class="active">Админка</router-link>
         </li>
         <li>
-          <p>Корзина</p>
+          <router-link class="nav-link" exact to="#" active-class="active">Корзина</router-link>
         </li>
       </ul>
-    </footer>
+    </header>
+    <hr />
+    <router-view></router-view>
   </div>
 </template>
 

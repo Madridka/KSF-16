@@ -1,6 +1,6 @@
 import VueRouter from "vue-router";
-import homePage from "@/components/homePage.vue"
-import adminPage from "@/components/admin/adminPage.vue"
+import homePage from "@/pages/homePage.vue"
+import adminPage from "@/pages/adminPage.vue"
 
 export default new VueRouter({
     routes: [{

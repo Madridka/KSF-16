@@ -5,9 +5,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    count: 0,
-    name: "kirill",
-    order: [
+    products: [
         {
           id: 1,
           title: "Вода",
@@ -43,62 +41,23 @@ const store = new Vuex.Store({
           price: "799",
           description: "Пять хлопковых футболок",
         },
-        {
-          id: 6,
-          title: "Книга",
-          count: "1",
-          price: "1200",
-          description: "Бестселлер в твердом переплете",
-        },
-        {
-          id: 7,
-          title: "Яблоки",
-          count: "10",
-          price: "150",
-          description: "Десять спелых красных яблок",
-        },
-        {
-          id: 8,
-          title: "Наушники",
-          count: "1",
-          price: "3500",
-          description: "Беспроводные наушники",
-        },
-        {
-          id: 9,
-          title: "Шоколад",
-          count: "6",
-          price: "120",
-          description: "Шесть плиток темного шоколада",
-        },
-        {
-          id: 10,
-          title: "Рюкзак",
-          count: "1",
-          price: "2800",
-          description: "Прочный рюкзак для путешествий",
-        },
-        {
-          id: 11,
-          title: "Молоко",
-          count: "3",
-          price: "75",
-          description: "Три литра свежего молока",
-        },
-        {
-          id: 12,
-          title: "Лампа",
-          count: "2",
-          price: "950",
-          description: "Две настольные лампы с регулировкой яркости",
-        },
       ],
   },
   mutations: {
-    increment (state) {
-      state.count++
+    updateProduct(state, updatedProduct) {
+      const index = state.products.findIndex(products => products.id === updatedProduct.id);
+      if (index !== -1) {
+        state.products[index] = { ...state.products[index], ...updatedProduct };
+      }
+    },
+
+    addNewProduct(state, newProduct) {
+        state.products.push(newProduct)
     }
-  }
+  },
+  getters: {
+    allProducts: state => state.products,
+  },
 })
 
 export default store;

@@ -21,7 +21,7 @@
         <button :disabled="!isDisabled" class="btn btn-add">
           Добавить товар
         </button>
-        <button class="btn btn-close" @click="closeModal">Х</button>
+        <button class="btn btn-close" @click="closeModal"/>
       </div>
     </form>
   </div>
@@ -61,7 +61,7 @@ export default {
         price: this.price,
         description: this.description,
       };
-      this.$emit("add-product", newProduct);
+      this.$store.commit('addNewProduct', newProduct);
       this.title = "";
       this.count = "";
       this.price = "";

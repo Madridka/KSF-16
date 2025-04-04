@@ -13,12 +13,14 @@
         Хочешь добавить товар? нажми сюда
       </button>
     </div>
-    <div>
-      <ol>
-        <li v-for="product in $store.state.order" :key="product.id">
+
+    <ol>
+      <li v-for="product in allProducts" :key="product.id">
+        <div v-if="editingId !== product.id">
           <strong>Товар: </strong> {{ product.title }}
           <br />
-          <strong>Количество: </strong>{{ product.count }} шт. ||
+          <strong>Количество: </strong>{{ product.count }} шт.
+          <br>
           <strong>Стоимость за шт.: </strong> {{ product.price }} руб.
           <br />
           <strong>Описание товара: </strong>
@@ -30,21 +32,29 @@
           <button class="btn btn-delete" @click="deleteProd(product.id)">
             Удалить
           </button>
-        </li>
-      </ol>
-    </div>
+        </div>
+        <div v-else>
+          <input type="text" v-model="editTitle" placeholder="Название" />
+          <input type="number" v-model="editCount" placeholder="Количество" />
+          <input type="number" v-model="editPrice" placeholder="Стоимость" />
+          <textarea
+            type="text"
+            v-model="editDescription"
+            placeholder="Описание"
+          />
+          <button class="btn btn-save" @click="saveEdit">Сохранить</button>
+          <button class="btn btn-cancel" @click="cancelEdit">Отмена</button>
+        </div>
+      </li>
+    </ol>
   </div>
 </template>
 
 <script>
-import addForm from "../addForm.vue";
-
-import "../../assets/styles/normalize.css";
-import "../../assets/styles/styles.scss";
-import "../../assets/styles/btn-styles.scss";
+import addForm from "../components/addForm.vue";
 
 export default {
-  name: "App",
+  name: "adminPage",
   components: {
     addForm,
   },
@@ -60,14 +70,19 @@ export default {
     };
   },
 
+  computed: {
+    allProducts() {
+      return this.$store.getters.allProducts;
+    },
+  },
+
   methods: {
     addProduct(product) {
       this.order.push(product);
     },
 
-    startEditing(id) {
-      this.formTitle = "Редактирование товара";
-      const product = this.order.find((p) => p.id === id);
+    startEdit(id) {
+      const product = this.allProducts.find((p) => p.id === id);
       this.editingId = id;
       this.editTitle = product.title;
       this.editPrice = product.price;
@@ -75,17 +90,15 @@ export default {
       this.editDescription = product.description;
     },
 
-    saveEdit(updatedProduct) {
-      const index = this.order.findIndex((p) => p.id === this.editingId);
-      if (index !== -1) {
-        this.order[index] = {
-          id: this.editingId,
-          title: updatedProduct.title,
-          price: Number(updatedProduct.price),
-          count: Number(updatedProduct.count),
-          description: updatedProduct.description,
-        };
-      }
+    saveEdit() {
+      const updatedProduct = {
+        id: this.editingId,
+        title: this.editTitle,
+        count: this.editCount,
+        price: this.editPrice,
+        description: this.editDescription,
+      };
+      this.$store.commit("updateProduct", updatedProduct); // Обновляем через Vuex
       this.cancelEdit();
     },
 
@@ -98,11 +111,11 @@ export default {
     },
 
     deleteProd(id) {
-      this.order = this.order.filter((p) => p.id !== id);
+      this.$store.state.products = this.$store.state.products.filter(
+        (p) => p.id !== id
+      );
     },
   },
-
-  computed: {},
 };
 </script>
 
