@@ -13,15 +13,20 @@
       <input type="number" v-model="price" placeholder="Стоимость, руб" />
       <textarea
         type="text"
-        v-model="description"
-        placeholder="Описание товара"
+        v-model="shortDesc"
+        placeholder="Короткое описание товара"
+      />
+      <textarea
+        type="text"
+        v-model="fullDesc"
+        placeholder="Полное описание товара"
       />
       <br />
       <div class="btn-center">
         <button :disabled="!isDisabled" class="btn btn-add">
           Добавить товар
         </button>
-        <button class="btn btn-close" @click="closeModal"/>
+        <button class="btn btn-close" @click="closeModal" />
       </div>
     </form>
   </div>
@@ -36,7 +41,8 @@ export default {
       title: "",
       count: "",
       price: "",
-      description: "",
+      shortDesc: "",
+      fullDesc: "",
       isModalOpen: true,
     };
   },
@@ -59,13 +65,15 @@ export default {
         title: this.title,
         count: this.count,
         price: this.price,
-        description: this.description,
+        shortDesc: this.shortDesc,
+        fullDesc: this.fullDesc,
       };
-      this.$store.commit('addNewProduct', newProduct);
+      this.$store.commit("addNewProduct", newProduct);
       this.title = "";
       this.count = "";
       this.price = "";
-      this.description = "";
+      this.shortDesc = "";
+      this.fullDesc = "";
     },
     closeModal() {
       this.$emit("close");
@@ -78,7 +86,8 @@ export default {
         this.title !== "" &&
         this.count !== "" &&
         this.price !== "" &&
-        this.description !== ""
+        this.shortDesc !== "" &&
+        this.fullDesc !== ""
       );
     },
   },

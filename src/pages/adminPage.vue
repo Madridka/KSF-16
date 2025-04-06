@@ -3,28 +3,29 @@
     <addForm
       :is-visible="isModalOpen"
       @close="isModalOpen = false"
-      :order="order"
       formTitle="Добавление товара"
-      @add-product="addProduct"
     />
 
     <div class="btn-center">
       <button class="btn btn-add" @click="isModalOpen = !isModalOpen">
-        Хочешь добавить товар? нажми сюда
+        Добавить товар
       </button>
     </div>
-
+    <hr />
     <ol>
       <li v-for="product in allProducts" :key="product.id">
         <div v-if="editingId !== product.id">
           <strong>Товар: </strong> {{ product.title }}
           <br />
           <strong>Количество: </strong>{{ product.count }} шт.
-          <br>
+          <br />
           <strong>Стоимость за шт.: </strong> {{ product.price }} руб.
           <br />
-          <strong>Описание товара: </strong>
-          {{ product.description }}
+          <strong>Короткое описание товара: </strong>
+          {{ product.shortDesc }}
+          <br />
+          <strong>Полное описание товара: </strong>
+          {{ product.fullDesc }}
           <br />
           <button class="btn btn-edit" @click="startEdit(product.id)">
             Редактировать
@@ -39,10 +40,21 @@
           <input type="number" v-model="editPrice" placeholder="Стоимость" />
           <textarea
             type="text"
-            v-model="editDescription"
-            placeholder="Описание"
+            v-model="editshortDesc"
+            placeholder="Короткое описание"
           />
-          <button class="btn btn-save" @click="saveEdit">Сохранить</button>
+          <textarea
+            type="text"
+            v-model="editfullDesc"
+            placeholder="Полное описание"
+          />
+          <button
+            :disabled="!isDisabled"
+            class="btn btn-save"
+            @click="saveEdit"
+          >
+            Сохранить
+          </button>
           <button class="btn btn-cancel" @click="cancelEdit">Отмена</button>
         </div>
       </li>
@@ -62,9 +74,10 @@ export default {
     return {
       editingId: null,
       editTitle: "",
-      editPrice: "",
       editCount: "",
-      editDescription: "",
+      editPrice: "",
+      editshortDesc: "",
+      editfullDesc: "",
 
       isModalOpen: false,
     };
@@ -74,20 +87,26 @@ export default {
     allProducts() {
       return this.$store.getters.allProducts;
     },
+    isDisabled() {
+      return (
+        this.editTitle !== "" &&
+        this.editCount !== "" &&
+        this.editPrice !== "" &&
+        this.editshortDesc !== "" &&
+        this.editfullDesc !== ""
+      );
+    },
   },
 
   methods: {
-    addProduct(product) {
-      this.order.push(product);
-    },
-
     startEdit(id) {
       const product = this.allProducts.find((p) => p.id === id);
       this.editingId = id;
       this.editTitle = product.title;
-      this.editPrice = product.price;
       this.editCount = product.count;
-      this.editDescription = product.description;
+      this.editPrice = product.price;
+      this.editshortDesc = product.shortDesc;
+      this.editfullDesc = product.fullDesc;
     },
 
     saveEdit() {
@@ -96,7 +115,8 @@ export default {
         title: this.editTitle,
         count: this.editCount,
         price: this.editPrice,
-        description: this.editDescription,
+        shortDesc: this.editshortDesc,
+        fullDesc: this.editfullDesc,
       };
       this.$store.commit("updateProduct", updatedProduct); // Обновляем через Vuex
       this.cancelEdit();
@@ -105,9 +125,10 @@ export default {
     cancelEdit() {
       this.editingId = null;
       this.editTitle = "";
-      this.editPrice = "";
       this.editCount = "";
-      this.editDescription = "";
+      this.editPrice = "";
+      this.editshortDesc = "";
+      this.editfullDesc = "";
     },
 
     deleteProd(id) {

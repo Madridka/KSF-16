@@ -1,15 +1,22 @@
 <template>
-  <div class="product">
-    <div class="product__item" v-for="product in allProducts" :key="product.id">
-      <div class="product__image-wrapper">
-        <img src="#" alt="Фото товара" />
-      </div>
-      <hr />
-      <strong>{{ product.title }}</strong>
-      <div style="font-size: 13px">{{ product.description }}</div>
-      <button class="btn btn-shoplist">
-        В корзину
-      </button>
+  <div>
+    <h2>Товары</h2>
+    <hr />
+    <div class="product">
+      <router-link
+        v-for="product in allProducts"
+        :key="product.id"
+        :to="'/product/' + product.id"
+        ><div class="product__item">
+          <div class="product__image-wrapper">
+            <img src="#" alt="Фото товара" />
+          </div>
+          <hr />
+          <strong>{{ product.title }}</strong>
+          <div style="font-size: 13px">{{ product.shortDesc }}</div>
+          <button @click.stop.prevent="addToPurchase" class="btn btn-shoplist">В корзину</button>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -30,7 +37,11 @@ export default {
 
   props: {},
 
-  methods: {},
+  methods: {
+    addToPurchase() {
+      console.log('Добавлен в корзину:');
+    }
+  },
 };
 </script>
 
