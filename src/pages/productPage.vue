@@ -4,6 +4,7 @@
     <div>
       <img :src="product.poster" :alt="product.title">
       <h3>О товаре:</h3>
+      <p>Количество: {{product.count}} шт. </p>
       <p>Цена: {{product.price}} руб. </p>
       <p>Описание: {{product.shortDesc}} </p>
       <p>Полное описание: {{product.fullDesc}} </p>

@@ -22,7 +22,7 @@
         placeholder="Полное описание товара"
       />
       <br />
-      <input type="file" accept="image/*" />
+      <input type="file" @change="handleImageUpload" accept="image/*" />
       <br />
       <div class="btn-center">
         <button :disabled="!isDisabled" class="btn btn-add">
@@ -62,6 +62,12 @@ export default {
     },
   },
   methods: {
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.poster = URL.createObjectURL(file);
+      }
+    },
     addNewProduct() {
       const newProduct = {
         id: Date.now(),
