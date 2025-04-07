@@ -42,3 +42,10 @@ a {
   color: inherit;
   text-decoration: none; 
 }
+
+img {
+  float: right;
+  min-width: 100px;
+  max-width: 150px;
+  
+}

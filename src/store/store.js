@@ -70,7 +70,12 @@ const store = new Vuex.Store({
       }
     },
     addToCart(state, product) {
-      state.cart.push(product)
+      const existingItem = state.cart.find((item) => item.id === product.id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        state.cart.push({ ...product, quantity: 1 });
+      }
     }
 
   },
