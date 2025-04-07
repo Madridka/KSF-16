@@ -14,17 +14,29 @@
           <hr />
           <strong>{{ product.title }}</strong>
           <div style="font-size: 13px">{{ product.shortDesc }}</div>
-          <button @click.stop.prevent="addToPurchase" class="btn btn-shoplist">В корзину</button>
+          <button
+            @click.stop.prevent="addToCart(product)"
+            class="btn btn-shoplist"
+          >
+            Купить
+          </button>
         </div>
       </router-link>
     </div>
+
+    <!-- <cartPage /> -->
   </div>
 </template>
 
 <script>
+// import cartPage from "../components/cartPage.vue";
+
+
 export default {
   name: "shopList",
-  components: {},
+  components: {
+    // cartPage,
+  },
   data() {
     return {};
   },
@@ -38,8 +50,8 @@ export default {
   props: {},
 
   methods: {
-    addToPurchase() {
-      console.log('Добавлен в корзину:');
+    addToCart(product) {
+      this.$store.dispatch('addToCart', product);
     }
   },
 };

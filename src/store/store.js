@@ -51,22 +51,34 @@ const store = new Vuex.Store({
         shortDesc: "Пять футболок",
         fullDesc: "Пять хлопковых футболок бренда 'CottonLife'. Цвета: белый, черный, серый, синий, зеленый. 100% натуральный хлопок, мягкая текстура, идеальная посадка и долговечное качество."
       }
-    ]
+    ],
+    cart: []
   },
+
+  getters: {
+    allProducts: state => state.products,
+  },
+
   mutations: {
+    addNewProduct(state, newProduct) {
+      state.products.push(newProduct)
+    },
     updateProduct(state, updatedProduct) {
       const index = state.products.findIndex(products => products.id === updatedProduct.id);
       if (index !== -1) {
         state.products[index] = { ...state.products[index], ...updatedProduct };
       }
     },
-
-    addNewProduct(state, newProduct) {
-      state.products.push(newProduct)
+    addToCart(state, product) {
+      state.cart.push(product)
     }
+
   },
-  getters: {
-    allProducts: state => state.products,
+
+  actions: {
+    addToCart({ commit }, product) {
+      commit('addToCart', product);
+    }
   },
 })
 

@@ -9,7 +9,7 @@
           <router-link class="nav-link" exact to="/admin" active-class="active">Админка</router-link>
         </li>
         <li>
-          <router-link class="nav-link" exact to="#" active-class="active">Корзина</router-link>
+          <router-link class="nav-link" exact to="/cart" active-class="active">Корзина</router-link>
         </li>
       </ul>
     </header>
