@@ -22,6 +22,8 @@
         placeholder="Полное описание товара"
       />
       <br />
+      <input type="file" accept="image/*" />
+      <br />
       <div class="btn-center">
         <button :disabled="!isDisabled" class="btn btn-add">
           Добавить товар
@@ -39,6 +41,7 @@ export default {
   data() {
     return {
       title: "",
+      poster: "",
       count: "",
       price: "",
       shortDesc: "",
@@ -63,6 +66,7 @@ export default {
       const newProduct = {
         id: Date.now(),
         title: this.title,
+        poster: this.poster,
         count: this.count,
         price: this.price,
         shortDesc: this.shortDesc,
@@ -70,6 +74,7 @@ export default {
       };
       this.$store.commit("addNewProduct", newProduct);
       this.title = "";
+      this.poster = "";
       this.count = "";
       this.price = "";
       this.shortDesc = "";
@@ -84,6 +89,7 @@ export default {
     isDisabled() {
       return (
         this.title !== "" &&
+        this.poster !== "" &&
         this.count !== "" &&
         this.price !== "" &&
         this.shortDesc !== "" &&

@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="admin">
     <addForm
       :is-visible="isModalOpen"
       @close="isModalOpen = false"
@@ -15,6 +15,7 @@
     <ol>
       <li v-for="product in allProducts" :key="product.id">
         <div v-if="editingId !== product.id">
+          <img :src="product.poster" :alt="product.title" />
           <strong>Товар: </strong> {{ product.title }}
           <br />
           <strong>Количество: </strong>{{ product.count }} шт.
@@ -35,6 +36,8 @@
           </button>
         </div>
         <div v-else>
+          <img :src="editPoster" :alt="editTitle" width="100" />
+          <input type="file" @change="handleImageUpload" accept="image/*" />
           <input type="text" v-model="editTitle" placeholder="Название" />
           <input type="number" v-model="editCount" placeholder="Количество" />
           <input type="number" v-model="editPrice" placeholder="Стоимость" />
@@ -48,6 +51,8 @@
             v-model="editfullDesc"
             placeholder="Полное описание"
           />
+
+          <br />
           <button
             :disabled="!isDisabled"
             class="btn btn-save"
@@ -74,6 +79,7 @@ export default {
     return {
       editingId: null,
       editTitle: "",
+      editPoster: "",
       editCount: "",
       editPrice: "",
       editshortDesc: "",
@@ -90,6 +96,7 @@ export default {
     isDisabled() {
       return (
         this.editTitle !== "" &&
+        this.editPoster !== "" &&
         this.editCount !== "" &&
         this.editPrice !== "" &&
         this.editshortDesc !== "" &&
@@ -103,16 +110,25 @@ export default {
       const product = this.allProducts.find((p) => p.id === id);
       this.editingId = id;
       this.editTitle = product.title;
+      this.editPoster = product.poster;
       this.editCount = product.count;
       this.editPrice = product.price;
       this.editshortDesc = product.shortDesc;
       this.editfullDesc = product.fullDesc;
     },
 
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.editPoster = URL.createObjectURL(file);
+      }
+    },
+
     saveEdit() {
       const updatedProduct = {
         id: this.editingId,
         title: this.editTitle,
+        poster: this.editPoster,
         count: this.editCount,
         price: this.editPrice,
         shortDesc: this.editshortDesc,
@@ -125,6 +141,7 @@ export default {
     cancelEdit() {
       this.editingId = null;
       this.editTitle = "";
+      this.editPoster = "";
       this.editCount = "";
       this.editPrice = "";
       this.editshortDesc = "";

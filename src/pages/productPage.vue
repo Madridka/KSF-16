@@ -1,6 +1,13 @@
 <template>
-  <div>
-    <h3>Продукт {{ product.title }}</h3>
+  <div class="product">
+    <h2><strong>{{ product.title }}</strong></h2>
+    <div>
+      <img :src="product.poster" :alt="product.title">
+      <h3>О товаре:</h3>
+      <p>Цена: {{product.price}} руб. </p>
+      <p>Описание: {{product.shortDesc}} </p>
+      <p>Полное описание: {{product.fullDesc}} </p>
+    </div>
   </div>
 </template>
 

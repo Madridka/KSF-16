@@ -9,6 +9,7 @@ const store = new Vuex.Store({
       {
         id: 1,
         title: "Вода",
+        poster: require(`@/images/1.png`),
         count: "4",
         price: "56",
         shortDesc: "Четыре бутылки воды",
@@ -17,6 +18,7 @@ const store = new Vuex.Store({
       {
         id: 2,
         title: "Хлеб",
+        poster: require(`@/images/2.png`),
         count: "2",
         price: "35",
         shortDesc: "Два батона",
@@ -25,6 +27,7 @@ const store = new Vuex.Store({
       {
         id: 3,
         title: "Смартфон",
+        poster: require(`@/images/3.png`),
         count: "1",
         price: "24990",
         shortDesc: "Телефон с камерой",
@@ -33,6 +36,7 @@ const store = new Vuex.Store({
       {
         id: 4,
         title: "Кофе",
+        poster: require(`@/images/4.png`),
         count: "3",
         price: "450",
         shortDesc: "Три пачки кофе",
@@ -41,6 +45,7 @@ const store = new Vuex.Store({
       {
         id: 5,
         title: "Футболка",
+        poster: require(`@/images/5.png`),
         count: "5",
         price: "799",
         shortDesc: "Пять футболок",
@@ -57,7 +62,7 @@ const store = new Vuex.Store({
     },
 
     addNewProduct(state, newProduct) {
-        state.products.push(newProduct)
+      state.products.push(newProduct)
     }
   },
   getters: {

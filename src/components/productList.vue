@@ -2,14 +2,14 @@
   <div>
     <h2>Товары</h2>
     <hr />
-    <div class="product">
+    <div class="products">
       <router-link
         v-for="product in allProducts"
         :key="product.id"
         :to="'/product/' + product.id"
-        ><div class="product__item">
-          <div class="product__image-wrapper">
-            <img src="#" alt="Фото товара" />
+        ><div class="products__item">
+          <div class="products__image-wrapper">
+            <img :src="product.poster" alt="Фото товара" />
           </div>
           <hr />
           <strong>{{ product.title }}</strong>
