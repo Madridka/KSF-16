@@ -15,7 +15,10 @@
           <strong>{{ product.title }}</strong>
           <div style="font-size: 13px">{{ product.shortDesc }}</div>
           <button
-            @click.stop.prevent="addToCart(product)"
+            @click.stop.prevent="
+              addToCart(product);
+              showNotification();
+            "
             class="btn btn-shoplist"
           >
             Купить
@@ -23,22 +26,22 @@
         </div>
       </router-link>
     </div>
-
-    <!-- <cartPage /> -->
+    <transition>
+      <div class="animate__animated animate__fadeIn addedToCard" v-if="show">
+        Товар добавлен к корзину
+      </div></transition
+    >
   </div>
 </template>
 
 <script>
-// import cartPage from "../components/cartPage.vue";
-
-
 export default {
   name: "shopList",
-  components: {
-    // cartPage,
-  },
+  components: {},
   data() {
-    return {};
+    return {
+      show: false,
+    };
   },
 
   computed: {
@@ -51,9 +54,14 @@ export default {
 
   methods: {
     addToCart(product) {
-      this.$store.dispatch('addToCart', product);
-      window.alert('Товар добавлен в корзину!')
-    }
+      this.$store.dispatch("addToCart", product);
+    },
+    showNotification() {
+      this.show = true;
+      setTimeout(() => {
+        this.show = false;
+      }, 1000);
+    },
   },
 };
 </script>

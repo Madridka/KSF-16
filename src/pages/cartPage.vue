@@ -18,13 +18,12 @@
           </button>
           <br />
           Итого: {{ getItemTotal(card) }} руб.
-          <br>
+          <br />
           <button class="btn btn-cancel" @click="deleteCard(card.id)">
             удалить товар
           </button>
         </li>
       </ul>
-
       <button class="btn btn-close" @click="closeModal"></button>
     </div>
   </div>
