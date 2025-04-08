@@ -76,6 +76,20 @@ const store = new Vuex.Store({
       } else {
         state.cart.push({ ...product, quantity: 1 });
       }
+    },
+    increaseQuantity(state, card) {
+      const item = state.cart.find(item => item.id === card);
+      if (item) item.quantity++;
+    },
+    decreaseQuantity(state, card) {
+      const item = state.cart.find(item => item.id === card);
+      if (item && item.quantity > 0) item.quantity--;
+      if (item.quantity == 0) {
+        state.cart = state.cart.filter(item => item.id !== card);
+      }
+    },
+    deleteCard(state, card) {
+      state.cart = state.cart.filter(item => item.id !== card);
     }
 
   },

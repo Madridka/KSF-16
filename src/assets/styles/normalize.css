@@ -45,7 +45,11 @@ a {
 
 img {
   float: right;
-  min-width: 100px;
-  max-width: 150px;
+  width: 100px;
+  
+}
+
+h3 {
+  text-align: center;
   
 }

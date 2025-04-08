@@ -52,6 +52,7 @@ export default {
   methods: {
     addToCart(product) {
       this.$store.dispatch('addToCart', product);
+      window.alert('Товар добавлен в корзину!')
     }
   },
 };
