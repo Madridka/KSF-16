@@ -52,11 +52,14 @@ const store = new Vuex.Store({
         fullDesc: "Пять хлопковых футболок бренда 'CottonLife'. Цвета: белый, черный, серый, синий, зеленый. 100% натуральный хлопок, мягкая текстура, идеальная посадка и долговечное качество."
       }
     ],
-    cart: []
+    cart: [],
   },
 
   getters: {
     allProducts: state => state.products,
+    totalPrice(state) {
+      return state.cart.reduce((sum, item) => Number(sum) + Number(item.price*item.quantity), 0)
+    } 
   },
 
   mutations: {
@@ -90,15 +93,15 @@ const store = new Vuex.Store({
     },
     deleteCard(state, card) {
       state.cart = state.cart.filter(item => item.id !== card);
-    }
-
+    },
   },
 
   actions: {
     addToCart({ commit }, product) {
       commit('addToCart', product);
-    }
+    },
   },
+
 })
 
 export default store;

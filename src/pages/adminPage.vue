@@ -134,7 +134,7 @@ export default {
         shortDesc: this.editshortDesc,
         fullDesc: this.editfullDesc,
       };
-      this.$store.commit("updateProduct", updatedProduct); // Обновляем через Vuex
+      this.$store.commit("updateProduct", updatedProduct); 
       this.cancelEdit();
     },
 

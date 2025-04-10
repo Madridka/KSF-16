@@ -24,6 +24,7 @@
           </button>
         </li>
       </ul>
+      <div class="total">Полная стоимость: {{ totalPrice }} руб. </div>
       <button class="btn btn-close" @click="closeModal"></button>
     </div>
   </div>
@@ -55,7 +56,12 @@ export default {
       this.$store.commit("deleteCard", card);
     },
   },
-  computed: {},
+  computed: {
+    totalPrice() {
+      console.log(this.$store.getters.totalPrice)
+      return this.$store.getters.totalPrice;
+    },
+  },
 };
 </script>
 
