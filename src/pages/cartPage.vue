@@ -24,7 +24,8 @@
           </button>
         </li>
       </ul>
-      <div class="total">Полная стоимость: {{ totalPrice }} руб. </div>
+      <div v-if="totalPrice === 0"></div>
+      <div v-else class="total">Полная стоимость: {{ totalPrice }} руб. </div>
       <button class="btn btn-close" @click="closeModal"></button>
     </div>
   </div>
