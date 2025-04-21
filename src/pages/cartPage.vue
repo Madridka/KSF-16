@@ -6,30 +6,12 @@
       <hr />
       <ul>
         <li v-for="card in $store.state.cart" :key="card">
-          <img :src="card.poster" :alt="card.title" />
-          <h4>{{ card.title }}</h4>
-          Цена: {{ card.price }} руб./шт.<br />
-          Количество: {{ card.quantity }} шт.
-
-          <baseButton
-            label="+"
-            type="edit"
-            @click="increaseQuantity(card.id)"
-          />
-
-          <baseButton
-            label="-"
-            type="delete"
-            @click="decreaseQuantity(card.id)"
-          />
-          <br />
-          Итого: {{ getItemTotal(card) }} руб.
-          <br />
-
-          <baseButton
-            label="удалить товар"
-            type="cancel"
-            @click="deleteCard(card.id)"
+          <cartForm
+            :card="card"
+            @increase-quantity="increaseQuantity"
+            @decrease-quantity="decreaseQuantity"
+            @delete-card="deleteCard"
+            @get-item-total="getItemTotal"
           />
         </li>
       </ul>
@@ -44,6 +26,7 @@
 
 <script>
 import baseButton from "../ui/baseButton.vue";
+import cartForm from "../components/cartForm.vue";
 
 export default {
   data() {
@@ -54,6 +37,7 @@ export default {
 
   components: {
     baseButton,
+    cartForm,
   },
 
   computed: {
@@ -69,9 +53,6 @@ export default {
     closeModal() {
       this.isModalOpen = !this.isModalOpen;
       this.$router.push("/");
-    },
-    getItemTotal(card) {
-      return card.price * card.quantity;
     },
     increaseQuantity(id) {
       this.$store.commit("increaseQuantity", id);
