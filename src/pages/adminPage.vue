@@ -14,7 +14,7 @@
     <hr />
     <ol>
       <li v-for="product in allProducts" :key="product.id">
-        <div v-if="editingId !== product.id">
+        <div v-if="!editProduct || editProduct.id !== product.id">
           <img :src="product.poster" :alt="product.title" />
           <strong>Товар: </strong> {{ product.title }}
           <br />
@@ -28,7 +28,7 @@
           <strong>Полное описание товара: </strong>
           {{ product.fullDesc }}
           <br />
-          <button class="btn btn-edit" @click="startEdit(product.id)">
+          <button class="btn btn-edit" @click="startEdit(product)">
             Редактировать
           </button>
           <button class="btn btn-delete" @click="deleteProd(product.id)">
@@ -36,19 +36,31 @@
           </button>
         </div>
         <div v-else>
-          <img :src="editPoster" :alt="editTitle" width="100" />
+          <img :src="editProduct.poster" :alt="editProduct.title" width="100" />
           <input type="file" @change="handleImageUpload" accept="image/*" />
-          <input type="text" v-model="editTitle" placeholder="Название" />
-          <input type="number" v-model="editCount" placeholder="Количество" />
-          <input type="number" v-model="editPrice" placeholder="Стоимость" />
+          <input
+            type="text"
+            v-model="editProduct.title"
+            placeholder="Название"
+          />
+          <input
+            type="number"
+            v-model="editProduct.count"
+            placeholder="Количество"
+          />
+          <input
+            type="number"
+            v-model="editProduct.price"
+            placeholder="Стоимость"
+          />
           <textarea
             type="text"
-            v-model="editshortDesc"
+            v-model="editProduct.shortDesc"
             placeholder="Короткое описание"
           />
           <textarea
             type="text"
-            v-model="editfullDesc"
+            v-model="editProduct.fullDesc"
             placeholder="Полное описание"
           />
 
@@ -75,16 +87,10 @@ export default {
   components: {
     addForm,
   },
+
   data() {
     return {
-      editingId: null,
-      editTitle: "",
-      editPoster: "",
-      editCount: "",
-      editPrice: "",
-      editshortDesc: "",
-      editfullDesc: "",
-
+      editProduct: null,
       isModalOpen: false,
     };
   },
@@ -95,57 +101,35 @@ export default {
     },
     isDisabled() {
       return (
-        this.editTitle !== "" &&
-        this.editPoster !== "" &&
-        this.editCount !== "" &&
-        this.editPrice !== "" &&
-        this.editshortDesc !== "" &&
-        this.editfullDesc !== ""
+        this.editProduct.title &&
+        this.editProduct.poster &&
+        this.editProduct.count > 0 &&
+        this.editProduct.price > 0 &&
+        this.editProduct.shortDesc &&
+        this.editProduct.fullDesc
       );
     },
   },
 
   methods: {
-    startEdit(id) {
-      const product = this.allProducts.find((p) => p.id === id);
-      this.editingId = id;
-      this.editTitle = product.title;
-      this.editPoster = product.poster;
-      this.editCount = product.count;
-      this.editPrice = product.price;
-      this.editshortDesc = product.shortDesc;
-      this.editfullDesc = product.fullDesc;
+    startEdit(product) {
+      this.editProduct = { ...product };
     },
 
     handleImageUpload(event) {
       const file = event.target.files[0];
       if (file) {
-        this.editPoster = URL.createObjectURL(file);
+        this.editProduct.poster = URL.createObjectURL(file);
       }
     },
 
     saveEdit() {
-      const updatedProduct = {
-        id: this.editingId,
-        title: this.editTitle,
-        poster: this.editPoster,
-        count: this.editCount,
-        price: this.editPrice,
-        shortDesc: this.editshortDesc,
-        fullDesc: this.editfullDesc,
-      };
-      this.$store.commit("updateProduct", updatedProduct); 
+      this.$store.commit("updateProduct", this.editProduct);
       this.cancelEdit();
     },
 
     cancelEdit() {
-      this.editingId = null;
-      this.editTitle = "";
-      this.editPoster = "";
-      this.editCount = "";
-      this.editPrice = "";
-      this.editshortDesc = "";
-      this.editfullDesc = "";
+      this.editProduct = null;
     },
 
     deleteProd(id) {

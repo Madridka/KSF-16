@@ -8,17 +8,29 @@
       class="container modal-content"
     >
       <p>{{ formTitle }}</p>
-      <input type="text" v-model="title" placeholder="Название товара" />
-      <input type="number" v-model="count" placeholder="Количество, шт" />
-      <input type="number" v-model="price" placeholder="Стоимость, руб" />
+      <input
+        type="text"
+        v-model="newProduct.title"
+        placeholder="Название товара"
+      />
+      <input
+        type="number"
+        v-model="newProduct.count"
+        placeholder="Количество, шт"
+      />
+      <input
+        type="number"
+        v-model="newProduct.price"
+        placeholder="Стоимость, руб"
+      />
       <textarea
         type="text"
-        v-model="shortDesc"
+        v-model="newProduct.shortDesc"
         placeholder="Короткое описание товара"
       />
       <textarea
         type="text"
-        v-model="fullDesc"
+        v-model="newProduct.fullDesc"
         placeholder="Полное описание товара"
       />
       <br />
@@ -37,18 +49,7 @@
 <script>
 export default {
   name: "addForm",
-  components: {},
-  data() {
-    return {
-      title: "",
-      poster: "",
-      count: "",
-      price: "",
-      shortDesc: "",
-      fullDesc: "",
-      isModalOpen: true,
-    };
-  },
+
   props: {
     order: {
       type: Array,
@@ -61,46 +62,56 @@ export default {
       default: false,
     },
   },
-  methods: {
-    handleImageUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        this.poster = URL.createObjectURL(file);
-      }
-    },
-    addNewProduct() {
-      const newProduct = {
-        id: Date.now(),
-        title: this.title,
-        poster: this.poster,
-        count: this.count,
-        price: this.price,
-        shortDesc: this.shortDesc,
-        fullDesc: this.fullDesc,
-      };
-      this.$store.commit("addNewProduct", newProduct);
-      this.title = "";
-      this.poster = "";
-      this.count = "";
-      this.price = "";
-      this.shortDesc = "";
-      this.fullDesc = "";
-    },
-    closeModal() {
-      this.$emit("close");
-    },
+
+  data() {
+    return {
+      newProduct: {
+        title: "",
+        poster: "",
+        count: null,
+        price: null,
+        shortDesc: "",
+        fullDesc: "",
+      },
+    };
   },
 
   computed: {
     isDisabled() {
       return (
-        this.title !== "" &&
-        this.poster !== "" &&
-        this.count !== "" &&
-        this.price !== "" &&
-        this.shortDesc !== "" &&
-        this.fullDesc !== ""
+        this.newProduct.title &&
+        this.newProduct.poster &&
+        this.newProduct.count > 0 &&
+        this.newProduct.price > 0 &&
+        this.newProduct.shortDesc &&
+        this.newProduct.fullDesc
       );
+    },
+  },
+
+  methods: {
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.newProduct.poster = URL.createObjectURL(file);
+      }
+    },
+    addNewProduct() {
+      this.$store.commit("addNewProduct", this.newProduct);
+      this.resetAdd();
+    },
+    resetAdd() {
+      this.newProduct = {
+        title: "",
+        poster: "",
+        count: 0,
+        price: 0,
+        shortDesc: "",
+        fullDesc: "",
+      };
+    },
+    closeModal() {
+      this.$emit("close");
     },
   },
 };

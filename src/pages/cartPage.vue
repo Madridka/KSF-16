@@ -1,11 +1,11 @@
 <template>
   <div class="modal" v-if="isModalOpen">
     <div class="container modal-content">
-      <h3>Корзина</h3>
+      <h3 v-if="isEmpty">Корзина пуста</h3>
+      <h3 v-else>Корзина</h3>
       <hr />
       <ul>
-        <h3 v-if="$store.state.cart.length === 0">Корзина пуста</h3>
-        <li v-else v-for="card in $store.state.cart" :key="card.id">
+        <li v-for="card in $store.state.cart" :key="card">
           <img :src="card.poster" :alt="card.title" />
           <h4>{{ card.title }}</h4>
           Цена: {{ card.price }} руб./шт.<br />
@@ -24,8 +24,9 @@
           </button>
         </li>
       </ul>
-      <div v-if="totalPrice === 0"></div>
-      <div v-else class="total">Полная стоимость: {{ totalPrice }} руб. </div>
+      <div v-if="totalPrice > 0" class="total">
+        Полная стоимость: {{ totalPrice }} руб.
+      </div>
       <button class="btn btn-close" @click="closeModal"></button>
     </div>
   </div>
@@ -38,7 +39,16 @@ export default {
       isModalOpen: true,
     };
   },
-  components: {},
+
+  computed: {
+    totalPrice() {
+      return this.$store.getters.totalPrice;
+    },
+    isEmpty() {
+      return this.$store.state.cart.length === 0;
+    },
+  },
+
   methods: {
     closeModal() {
       this.isModalOpen = !this.isModalOpen;
@@ -47,20 +57,14 @@ export default {
     getItemTotal(card) {
       return card.price * card.quantity;
     },
-    increaseQuantity(card) {
-      this.$store.commit("increaseQuantity", card);
+    increaseQuantity(id) {
+      this.$store.commit("increaseQuantity", id);
     },
-    decreaseQuantity(card) {
-      this.$store.commit("decreaseQuantity", card);
+    decreaseQuantity(id) {
+      this.$store.commit("decreaseQuantity", id);
     },
-    deleteCard(card) {
-      this.$store.commit("deleteCard", card);
-    },
-  },
-  computed: {
-    totalPrice() {
-      console.log(this.$store.getters.totalPrice)
-      return this.$store.getters.totalPrice;
+    deleteCard(id) {
+      this.$store.commit("deleteCard", id);
     },
   },
 };

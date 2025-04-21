@@ -2,14 +2,15 @@
   <div>
     <header>
       <ul class="nav nav-pills justify-content-center">
-        <li>
-          <router-link class="nav-link" exact to="/" active-class="active">Главная</router-link>
-        </li>
-        <li>
-          <router-link class="nav-link" exact to="/admin" active-class="active">Админка</router-link>
-        </li>
-        <li>
-          <router-link class="nav-link" exact to="/cart" active-class="active">Корзина</router-link>
+        <li v-for="route in navRoutes" :key="route.path">
+          <router-link
+            class="nav-link"
+            exact
+            :to="route.path"
+            active-class="active"
+          >
+            {{ route.meta.title }}
+          </router-link>
         </li>
       </ul>
     </header>
@@ -25,14 +26,12 @@ import "./assets/styles/btn-styles.scss";
 
 export default {
   name: "App",
-  components: {},
-  data() {
-    return {};
+
+  computed: {
+    navRoutes() {
+      return this.$router.options.routes.filter((route) => route.meta.nav);
+    },
   },
-
-  methods: {},
-
-  computed: {},
 };
 </script>
 

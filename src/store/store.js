@@ -58,8 +58,8 @@ const store = new Vuex.Store({
   getters: {
     allProducts: state => state.products,
     totalPrice(state) {
-      return state.cart.reduce((sum, item) => Number(sum) + Number(item.price*item.quantity), 0)
-    } 
+      return state.cart.reduce((sum, item) => Number(sum) + Number(item.price * item.quantity), 0)
+    }
   },
 
   mutations: {
@@ -69,7 +69,7 @@ const store = new Vuex.Store({
     updateProduct(state, updatedProduct) {
       const index = state.products.findIndex(products => products.id === updatedProduct.id);
       if (index !== -1) {
-        state.products[index] = { ...state.products[index], ...updatedProduct };
+        state.products.splice(index, 1, { ...state.products[index], ...updatedProduct });
       }
     },
     addToCart(state, product) {
@@ -80,19 +80,20 @@ const store = new Vuex.Store({
         state.cart.push({ ...product, quantity: 1 });
       }
     },
-    increaseQuantity(state, card) {
-      const item = state.cart.find(item => item.id === card);
+
+    increaseQuantity(state, id) {
+      const item = state.cart.find(item => item.id === id);
       if (item) item.quantity++;
     },
-    decreaseQuantity(state, card) {
-      const item = state.cart.find(item => item.id === card);
+    decreaseQuantity(state, id) {
+      const item = state.cart.find(item => item.id === id);
       if (item && item.quantity > 0) item.quantity--;
       if (item.quantity == 0) {
-        state.cart = state.cart.filter(item => item.id !== card);
+        state.cart = state.cart.filter(item => item.id !== id);
       }
     },
-    deleteCard(state, card) {
-      state.cart = state.cart.filter(item => item.id !== card);
+    deleteCard(state, id) {
+      state.cart = state.cart.filter(item => item.id !== id);
     },
   },
 

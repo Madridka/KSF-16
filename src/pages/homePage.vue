@@ -9,16 +9,10 @@ import productList from "../components/productList.vue";
 
 export default {
   name: "App",
+  
   components: {
     productList,
   },
-  data() {
-    return {};
-  },
-
-  methods: {},
-
-  computed: {},
 };
 </script>
 

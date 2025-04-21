@@ -7,20 +7,26 @@ import cartPage from "@/pages/cartPage.vue"
 
 export default new VueRouter({
     routes: [{
-        path: "",
-        component: homePage
+        path: "/",
+        component: homePage,
+        meta: { nav: true, title: "Главная" }
+
     },
     {
         path: "/admin",
-        component: adminPage
+        component: adminPage,
+        meta: { nav: true, title: "Админка" }
+
     },
     {
         path: "/product/:id",
         component: productPage,
+        meta: { nav: false, title: "Продукт" }
     },
     {
         path: "/cart",
         component: cartPage,
+        meta: { nav: true, title: "Корзина" }
     }
     ],
     mode: 'history'

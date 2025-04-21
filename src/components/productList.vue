@@ -37,7 +37,7 @@
 <script>
 export default {
   name: "shopList",
-  components: {},
+
   data() {
     return {
       show: false,
@@ -49,8 +49,6 @@ export default {
       return this.$store.getters.allProducts;
     },
   },
-
-  props: {},
 
   methods: {
     addToCart(product) {
