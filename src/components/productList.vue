@@ -14,15 +14,13 @@
           <hr />
           <strong>{{ product.title }}</strong>
           <div style="font-size: 13px">{{ product.shortDesc }}</div>
-          <button
-            @click.stop.prevent="
+          <baseButton
+            label="В корзину"
+            @click="
               addToCart(product);
               showNotification();
             "
-            class="btn btn-shoplist"
-          >
-            Купить
-          </button>
+          />
         </div>
       </router-link>
     </div>
@@ -35,8 +33,14 @@
 </template>
 
 <script>
+import baseButton from "../ui/baseButton.vue";
+
 export default {
   name: "shopList",
+
+  components: {
+    baseButton,
+  },
 
   data() {
     return {

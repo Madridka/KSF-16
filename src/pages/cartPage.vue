@@ -10,34 +10,50 @@
           <h4>{{ card.title }}</h4>
           Цена: {{ card.price }} руб./шт.<br />
           Количество: {{ card.quantity }} шт.
-          <button class="btn btn-edit" @click="increaseQuantity(card.id)">
-            +
-          </button>
-          <button class="btn btn-delete" @click="decreaseQuantity(card.id)">
-            -
-          </button>
+
+          <baseButton
+            label="+"
+            type="edit"
+            @click="increaseQuantity(card.id)"
+          />
+
+          <baseButton
+            label="-"
+            type="delete"
+            @click="decreaseQuantity(card.id)"
+          />
           <br />
           Итого: {{ getItemTotal(card) }} руб.
           <br />
-          <button class="btn btn-cancel" @click="deleteCard(card.id)">
-            удалить товар
-          </button>
+
+          <baseButton
+            label="удалить товар"
+            type="cancel"
+            @click="deleteCard(card.id)"
+          />
         </li>
       </ul>
       <div v-if="totalPrice > 0" class="total">
         Полная стоимость: {{ totalPrice }} руб.
       </div>
-      <button class="btn btn-close" @click="closeModal"></button>
+
+      <baseButton type="close" @click="closeModal" />
     </div>
   </div>
 </template>
 
 <script>
+import baseButton from "../ui/baseButton.vue";
+
 export default {
   data() {
     return {
       isModalOpen: true,
     };
+  },
+
+  components: {
+    baseButton,
   },
 
   computed: {

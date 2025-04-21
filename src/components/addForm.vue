@@ -37,18 +37,28 @@
       <input type="file" @change="handleImageUpload" accept="image/*" />
       <br />
       <div class="btn-center">
-        <button :disabled="!isDisabled" class="btn btn-add">
-          Добавить товар
-        </button>
-        <button class="btn btn-close" @click="closeModal" />
+        <baseButton
+          :disabled="!isDisabled"
+          label="Добавить товар"
+          type="add"
+          @click="isModalOpen = !isModalOpen"
+        />
+
+        <baseButton type="close" @click="closeModal" />
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import baseButton from "../ui/baseButton.vue";
+
 export default {
   name: "addForm",
+
+  components: {
+    baseButton,
+  },
 
   props: {
     order: {

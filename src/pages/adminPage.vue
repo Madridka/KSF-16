@@ -7,9 +7,11 @@
     />
 
     <div class="btn-center">
-      <button class="btn btn-add" @click="isModalOpen = !isModalOpen">
-        Добавить товар
-      </button>
+      <baseButton
+        label="Добавить товар"
+        type="add"
+        @click="isModalOpen = !isModalOpen"
+      />
     </div>
     <hr />
     <ol>
@@ -28,12 +30,18 @@
           <strong>Полное описание товара: </strong>
           {{ product.fullDesc }}
           <br />
-          <button class="btn btn-edit" @click="startEdit(product)">
-            Редактировать
-          </button>
-          <button class="btn btn-delete" @click="deleteProd(product.id)">
-            Удалить
-          </button>
+
+          <baseButton
+            label="Редактировать"
+            type="edit"
+            @click="startEdit(product)"
+          />
+
+          <baseButton
+            label="Удалить"
+            type="delete"
+            @click="deleteProd(product.id)"
+          />
         </div>
         <div v-else>
           <img :src="editProduct.poster" :alt="editProduct.title" width="100" />
@@ -65,14 +73,14 @@
           />
 
           <br />
-          <button
+          <baseButton
             :disabled="!isDisabled"
-            class="btn btn-save"
+            label="Сохранить"
+            type="save"
             @click="saveEdit"
-          >
-            Сохранить
-          </button>
-          <button class="btn btn-cancel" @click="cancelEdit">Отмена</button>
+          />
+
+          <baseButton label="Отмена" type="cancel" @click="cancelEdit" />
         </div>
       </li>
     </ol>
@@ -81,11 +89,13 @@
 
 <script>
 import addForm from "../components/addForm.vue";
+import baseButton from "../ui/baseButton.vue";
 
 export default {
   name: "adminPage",
   components: {
     addForm,
+    baseButton,
   },
 
   data() {
