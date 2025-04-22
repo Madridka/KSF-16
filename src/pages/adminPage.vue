@@ -9,7 +9,7 @@
     <div class="btn-center">
       <baseButton
         label="Добавить товар"
-        type="add"
+        purpose="add"
         @click="isModalOpen = !isModalOpen"
       />
     </div>
@@ -33,13 +33,13 @@
 
           <baseButton
             label="Редактировать"
-            type="edit"
+            purpose="edit"
             @click="startEdit(product)"
           />
 
           <baseButton
             label="Удалить"
-            type="delete"
+            purpose="delete"
             @click="deleteProd(product.id)"
           />
         </div>
@@ -76,11 +76,11 @@
           <baseButton
             :disabled="!isDisabled"
             label="Сохранить"
-            type="save"
+            purpose="save"
             @click="saveEdit"
           />
 
-          <baseButton label="Отмена" type="cancel" @click="cancelEdit" />
+          <baseButton label="Отмена" purpose="cancel" @click="cancelEdit" />
         </div>
       </li>
     </ol>

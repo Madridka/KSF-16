@@ -5,13 +5,12 @@
       <h3 v-else>Корзина</h3>
       <hr />
       <ul>
-        <li v-for="card in $store.state.cart" :key="card">
+        <li v-for="card in $store.state.cart" :key="card.id">
           <cartForm
             :card="card"
             @increase-quantity="increaseQuantity"
             @decrease-quantity="decreaseQuantity"
             @delete-card="deleteCard"
-            @get-item-total="getItemTotal"
           />
         </li>
       </ul>
@@ -19,7 +18,7 @@
         Полная стоимость: {{ totalPrice }} руб.
       </div>
 
-      <baseButton type="close" @click="closeModal" />
+      <baseButton purpose="close" @click="closeModal" />
     </div>
   </div>
 </template>

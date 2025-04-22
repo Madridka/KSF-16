@@ -1,12 +1,6 @@
 <template>
   <div class="modal" v-if="isVisible">
-    <form
-      @submit.prevent="
-        addNewProduct();
-        closeModal();
-      "
-      class="container modal-content"
-    >
+    <form class="container modal-content">
       <p>{{ formTitle }}</p>
       <input
         type="text"
@@ -40,11 +34,14 @@
         <baseButton
           :disabled="!isDisabled"
           label="Добавить товар"
-          type="add"
-          @click="isModalOpen = !isModalOpen"
+          purpose="add"
+          @click="
+            addNewProduct();
+            closeModal();
+          "
         />
 
-        <baseButton type="close" @click="closeModal" />
+        <baseButton purpose="close" @click="closeModal" />
       </div>
     </form>
   </div>
@@ -114,8 +111,8 @@ export default {
       this.newProduct = {
         title: "",
         poster: "",
-        count: 0,
-        price: 0,
+        count: null,
+        price: null,
         shortDesc: "",
         fullDesc: "",
       };

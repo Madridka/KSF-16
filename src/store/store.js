@@ -64,7 +64,14 @@ const store = new Vuex.Store({
 
   mutations: {
     addNewProduct(state, newProduct) {
-      state.products.push(newProduct)
+      const prodTitle = state.products.find((p) => p.title === newProduct.title)
+      if (prodTitle) {
+        alert('такой товар уже есть в корзине')
+
+      } else {
+        state.products.push(newProduct)
+      }
+
     },
     updateProduct(state, updatedProduct) {
       const index = state.products.findIndex(products => products.id === updatedProduct.id);
@@ -83,7 +90,9 @@ const store = new Vuex.Store({
 
     increaseQuantity(state, id) {
       const item = state.cart.find(item => item.id === id);
-      if (item) item.quantity++;
+      if (item) {
+        item.quantity++
+      }
     },
     decreaseQuantity(state, id) {
       const item = state.cart.find(item => item.id === id);

@@ -1,8 +1,8 @@
 <template>
   <button
-    :class="[`btn`, `btn-${type}`]"
+    :class="[`btn`, `btn-${purpose}`]"
     :disabled="disabled"
-    @click.stop.prevent="$emit('click')"
+    @click.prevent="$emit('click')"
   >
     {{ label }}
   </button>
@@ -14,9 +14,9 @@ export default {
   props: {
     label: {
       type: String,
-      required: true,
+      required: false,
     },
-    type: {
+    purpose: {
       type: String,
       default: "default",
       validator: (value) =>

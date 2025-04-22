@@ -4,9 +4,9 @@
     <h4>{{ card.title }}</h4>
     Цена: {{ card.price }} руб./шт.<br />
     Количество: {{ card.quantity }} шт.
-    <baseButton label="+" type="edit" @click="increaseQuantity(card.id)" />
+    <baseButton label="+" purpose="edit" @click="increaseQuantity(card.id)" />
 
-    <baseButton label="-" type="delete" @click="decreaseQuantity(card.id)" />
+    <baseButton label="-" purpose="delete" @click="decreaseQuantity(card.id)" />
     <br />
     Итого: {{ getItemTotal(card) }} руб.
     <br />
