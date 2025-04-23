@@ -66,7 +66,7 @@ const store = new Vuex.Store({
     addNewProduct(state, newProduct) {
       const prodTitle = state.products.find((p) => p.title === newProduct.title)
       if (prodTitle) {
-        alert('такой товар уже есть в корзине')
+        alert('Такой товар уже есть в корзине.')
 
       } else {
         state.products.push(newProduct)
@@ -80,27 +80,44 @@ const store = new Vuex.Store({
       }
     },
     addToCart(state, product) {
+      const prodInStore = state.products.find((prod) => prod.id === product.id)
+      console.log('товара: ' + prodInStore.count)
       const existingItem = state.cart.find((item) => item.id === product.id);
       if (existingItem) {
-        existingItem.quantity += 1;
+        if (existingItem.quantity >= prodInStore.count) {
+          alert('товар закончился')
+        } else {
+          existingItem.quantity += 1;
+        }
       } else {
         state.cart.push({ ...product, quantity: 1 });
       }
     },
 
     increaseQuantity(state, id) {
+      const prodInStore = state.products.find((prod) => prod.id === id);
+      console.log('товара: ' + prodInStore.count)
       const item = state.cart.find(item => item.id === id);
+      console.log('item: ' + item.quantity)
       if (item) {
-        item.quantity++
+        if (item.quantity + 1 <= prodInStore.count) {
+          console.log('первая итерация item: ' + item.quantity)
+          item.quantity++
+        } else {
+          alert('товар закончился')
+        }
       }
     },
     decreaseQuantity(state, id) {
       const item = state.cart.find(item => item.id === id);
-      if (item && item.quantity > 0) item.quantity--;
+      if (item && item.quantity > 0) {
+        item.quantity--;
+      }
       if (item.quantity == 0) {
         state.cart = state.cart.filter(item => item.id !== id);
       }
     },
+
     deleteCard(state, id) {
       state.cart = state.cart.filter(item => item.id !== id);
     },
