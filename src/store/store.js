@@ -81,7 +81,6 @@ const store = new Vuex.Store({
     },
     addToCart(state, product) {
       const prodInStore = state.products.find((prod) => prod.id === product.id)
-      console.log('товара: ' + prodInStore.count)
       const existingItem = state.cart.find((item) => item.id === product.id);
       if (existingItem) {
         if (existingItem.quantity >= prodInStore.count) {
@@ -96,12 +95,9 @@ const store = new Vuex.Store({
 
     increaseQuantity(state, id) {
       const prodInStore = state.products.find((prod) => prod.id === id);
-      console.log('товара: ' + prodInStore.count)
       const item = state.cart.find(item => item.id === id);
-      console.log('item: ' + item.quantity)
       if (item) {
         if (item.quantity + 1 <= prodInStore.count) {
-          console.log('первая итерация item: ' + item.quantity)
           item.quantity++
         } else {
           alert('товар закончился')
