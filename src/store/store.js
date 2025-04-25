@@ -53,12 +53,16 @@ const store = new Vuex.Store({
       }
     ],
     cart: [],
+    isModalOpen: false,
   },
 
   getters: {
     allProducts: state => state.products,
     totalPrice(state) {
       return state.cart.reduce((sum, item) => Number(sum) + Number(item.price * item.quantity), 0)
+    },
+    isModalOpen(state) {
+      return state.isModalOpen
     }
   },
 
@@ -66,17 +70,21 @@ const store = new Vuex.Store({
     addNewProduct(state, newProduct) {
       const prodTitle = state.products.find((p) => p.title === newProduct.title)
       if (prodTitle) {
-        alert('Такой товар уже есть в корзине.')
-
+        alert('Такой товар уже существует.')
       } else {
         state.products.push(newProduct)
       }
 
     },
     updateProduct(state, updatedProduct) {
-      const index = state.products.findIndex(products => products.id === updatedProduct.id);
-      if (index !== -1) {
-        state.products.splice(index, 1, { ...state.products[index], ...updatedProduct });
+      const prodTitle = state.products.find((p) => p.title === updatedProduct.title)
+      if (prodTitle) {
+        alert('Такой товар уже существует.')
+      } else {
+        const index = state.products.findIndex(products => products.id === updatedProduct.id);
+        if (index !== -1) {
+          state.products.splice(index, 1, { ...state.products[index], ...updatedProduct });
+        }
       }
     },
     addToCart(state, product) {
@@ -117,7 +125,14 @@ const store = new Vuex.Store({
     deleteCard(state, id) {
       state.cart = state.cart.filter(item => item.id !== id);
     },
+    modalOpen(state) {
+      state.isModalOpen = true
+    },
+    modalClose(state) {
+      state.isModalOpen = false
+    },
   },
+
 
   actions: {
     addToCart({ commit }, product) {

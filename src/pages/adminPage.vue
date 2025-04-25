@@ -2,16 +2,11 @@
   <div class="admin">
     <addForm
       :is-visible="isModalOpen"
-      @close="isModalOpen = false"
+      @close="modalClose"
       formTitle="Добавление товара"
     />
-
     <div class="btn-center">
-      <baseButton
-        label="Добавить товар"
-        purpose="add"
-        @click="isModalOpen = !isModalOpen"
-      />
+      <baseButton label="Добавить товар" purpose="add" @click="modalOpen" />
     </div>
     <hr />
     <ol>
@@ -101,13 +96,15 @@ export default {
   data() {
     return {
       editProduct: null,
-      isModalOpen: false,
     };
   },
 
   computed: {
     allProducts() {
       return this.$store.getters.allProducts;
+    },
+    isModalOpen() {
+      return this.$store.getters.isModalOpen;
     },
     isDisabled() {
       return (
@@ -146,6 +143,12 @@ export default {
       this.$store.state.products = this.$store.state.products.filter(
         (p) => p.id !== id
       );
+    },
+    modalOpen() {
+      this.$store.commit("modalOpen");
+    },
+    modalClose() {
+      this.$store.commit("modalClose");
     },
   },
 };
