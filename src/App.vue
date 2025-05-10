@@ -1,28 +1,35 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <header>
+      <ul class="nav nav-pills justify-content-center">
+        <li v-for="route in navRoutes" :key="route.path">
+          <router-link
+            class="nav-link"
+            exact
+            :to="route.path"
+            active-class="active"
+          >
+            {{ route.meta.title }}
+          </router-link>
+        </li>
+      </ul>
+    </header>
+    <hr />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+
+  computed: {
+    navRoutes() {
+      return this.$router.options.routes.filter((route) => route.meta.nav);
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
